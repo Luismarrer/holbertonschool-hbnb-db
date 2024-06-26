@@ -3,17 +3,20 @@
 from datetime import datetime
 from typing import Any, Optional
 import uuid
-from abc import ABC, abstractmethod
+from abc import abstractmethod
+from sqlalchemy.orm import DeclarativeBase
+from sqlalchemy import Column, String, DateTime
 
 
-class Base(ABC):
+class Base(DeclarativeBase):
     """
     Base Interface for all models
     """
+    __abstract__ = True
 
-    id: str
-    created_at: datetime
-    updated_at: datetime
+    id = Column(String(36), primary_key=True, default=lambda: str(uuid.uuid4()))
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
 
     def __init__(
         self,

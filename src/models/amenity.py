@@ -3,12 +3,15 @@ Amenity related functionality
 """
 
 from src.models.base import Base
+from . import db
 
 
-class Amenity(Base):
+class Amenity(db.Model):
     """Amenity representation"""
+    __tablename__ = 'amenities'
 
-    name: str
+    name = db.Column(db.String(120), unique=True, nullable=False)
+    places = db.relationship('PlaceAmenity', back_populates='amenity')
 
     def __init__(self, name: str, **kw) -> None:
         """Dummy init"""
@@ -58,11 +61,17 @@ class Amenity(Base):
         return amenity
 
 
-class PlaceAmenity(Base):
+class PlaceAmenity(db.Model):
     """PlaceAmenity representation"""
+    __tablename__ = 'place_amenities'
 
-    place_id: str
-    amenity_id: str
+    place_id = db.Column(db.String(36), db.ForeignKey('places.id'), primary_key=True)
+    amenity_id = db.Column(db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
+    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
+    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
+
+    place = db.relationship('Place', back_populates='amenities')
+    amenity = db.relationship('Amenity', back_populates='places')
 
     def __init__(self, place_id: str, amenity_id: str, **kw) -> None:
         """Dummy init"""
