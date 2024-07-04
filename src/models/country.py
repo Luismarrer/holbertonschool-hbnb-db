@@ -2,6 +2,7 @@
 Country related functionality
 """
 from . import db
+import os
 
 
 class Country(db.Model):
@@ -40,8 +41,10 @@ class Country(db.Model):
     def get_all() -> list["Country"]:
         """Get all countries"""
         from src.persistence import repo
-
-        countries: list["Country"] = repo.get_all("country")
+        if os.getenv("REPOSITORY") == "file":
+            countries: list["Country"] = repo.get_all("country")
+        else:
+            countries: list["Country"] = repo.get_all(Country)
 
         return countries
 

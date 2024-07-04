@@ -27,7 +27,7 @@ class DevelopmentConfig(Config):
     """
     Development configuration settings
     This configuration is used when running the application locally
-
+debug = Tru
     This is useful for development and debugging purposes.
 
     To check if the application is running in development mode, you can use:
@@ -41,6 +41,7 @@ class DevelopmentConfig(Config):
 
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL", "sqlite:///hbnb_dev.db")
+    JWT_SECRET_KEY = "JWT_SECRET"
     DEBUG = True
 
 
@@ -78,5 +79,5 @@ class ProductionConfig(Config):
 
     SQLALCHEMY_DATABASE_URI = os.getenv(
         "DATABASE_URL",
-        "postgresql://user:password@localhost/hbnb_prod"
+        "mysql+mysqldb://root:""@localhost/hbnb_prod"
     )

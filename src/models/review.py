@@ -13,7 +13,7 @@ class Review(db.Model):
     __tablename__ = 'reviews'
 
     place_id = db.Column(db.String(36), db.ForeignKey('places.id'), nullable=False)
-    user_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    user_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False)
     comment = db.Column(db.Text, nullable=False)
     rating = db.Column(db.Float, nullable=False)
 

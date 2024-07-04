@@ -7,14 +7,6 @@
     ],
     "user": [
         {
-            "id": "3c37ba41-60b6-474a-8f34-155369b638a3",
-            "email": "test@test.com",
-            "first_name": "luis",
-            "last_name": "marrero",
-            "created_at": "2024-06-25T11:35:02.831895",
-            "updated_at": "2024-06-25T11:35:02.831903"
-        },
-        {
             "id": "d182db07-7b45-4232-88d4-123e639de02e",
             "email": "test1@test.com",
             "first_name": "luis",
@@ -29,10 +21,26 @@
             "last_name": "marrero",
             "created_at": "2024-06-26T15:26:31.735529",
             "updated_at": "2024-06-26T15:26:31.735546"
+        },
+        {
+            "id": "48618c93-ff16-4643-915b-5f46d92070e2",
+            "email": "test3@test.com",
+            "first_name": "luis",
+            "last_name": "lopez",
+            "created_at": "2024-06-28T14:10:30.293102",
+            "updated_at": "2024-06-28T14:12:02.798518"
         }
     ],
     "amenity": [],
-    "city": [],
+    "city": [
+        {
+            "id": "8d614ae9-0734-437b-b105-2ed502cce318",
+            "name": "Vega Baja",
+            "country_code": "UY",
+            "created_at": "2024-06-28T14:14:14.028938",
+            "updated_at": "2024-06-28T14:14:14.028956"
+        }
+    ],
     "review": [],
     "place": [],
     "placeamenity": []

@@ -14,30 +14,65 @@
 
 from src.models.base import Base
 from src.persistence.repository import Repository
+from src.models import db
+from sqlalchemy.exc import SQLAlchemyError
+from src.models.country import Country
 
 
 class DBRepository(Repository):
     """Dummy DB repository"""
 
     def __init__(self) -> None:
-        """Not implemented"""
+        """Initialize the DBRepository"""
+        self.session = db.session
+        self.reload()
 
     def get_all(self, model_name: str) -> list:
-        """Not implemented"""
-        return []
+        """Get all objects of a given model from the database"""
+        try:
+            return self.session.query(model_name).all()
+        except SQLAlchemyError:
+            self.session.rollback()
+            return []
 
     def get(self, model_name: str, obj_id: str) -> Base | None:
-        """Not implemented"""
+        """Get an object of a given model by its ID from the database"""
+        try:
+            return self.session.query(model_name).get(obj_id)
+        except SQLAlchemyError:
+            self.session.rollback()
+            return None
 
     def reload(self) -> None:
-        """Not implemented"""
+        """Reload the database"""
+        from utils.populate import populate_db
+        populate_db(self)
+        db.create_all()
 
     def save(self, obj: Base) -> None:
-        """Not implemented"""
+        """Save an object to the database"""
+        try:
+            self.session.add(obj)
+            self.session.commit()
+        except SQLAlchemyError:
+            self.session.rollback()
 
     def update(self, obj: Base) -> Base | None:
-        """Not implemented"""
+        """Update an object in the database"""
+        try:
+            self.session.commit()
+        except SQLAlchemyError:
+            self.session.rollback()
 
     def delete(self, obj: Base) -> bool:
-        """Not implemented"""
-        return False
+        """Delete an object from the database"""
+        try:
+            self.session.delete(obj)
+            self.session.commit()
+            return True
+        except SQLAlchemyError:
+            self.session.rollback()
+            return False
+        
+    def get_by_code(self, model, code):
+        return self.session.query(model).filter_by(code=code).first()

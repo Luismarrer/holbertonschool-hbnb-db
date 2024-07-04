@@ -17,7 +17,7 @@ class Place(db.Model):
     address = db.Column(db.String(255), nullable=False)
     latitude = db.Column(db.Float, nullable=False)
     longitude = db.Column(db.Float, nullable=False)
-    host_id = db.Column(db.String(36), db.ForeignKey('users.id'), nullable=False)
+    host_id = db.Column(db.String(36), db.ForeignKey('user.id'), nullable=False)
     city_id = db.Column(db.String(36), db.ForeignKey('cities.id'), nullable=False)
     price_per_night = db.Column(db.Integer, nullable=False)
     number_of_rooms = db.Column(db.Integer, nullable=False)

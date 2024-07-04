@@ -2,27 +2,31 @@
 User related functionality
 """
 
-from src.models.base import Base
 from . import db
+
 
 
 class User(db.Model):
     """User representation"""
 
-    __tablename__ = 'users'
+    __tablename__ = 'user'
 
     email = db.Column(db.String(120), unique=True, nullable=False)
+    password_hash = db.Column(db.String(128))
+    is_admin = db.Column(db.Boolean, default=False)
     first_name = db.Column(db.String(50), nullable=False)
     last_name = db.Column(db.String(50), nullable=False)
+
     places = db.relationship('Place', back_populates='host')
     reviews = db.relationship('Review', back_populates='user')
 
-    def __init__(self, email: str, first_name: str, last_name: str, **kw):
+    def __init__(self, email: str, first_name: str, last_name: str, password, **kw):
         """Dummy init"""
         super().__init__(**kw)
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
+        set_password(self, password)
 
     def __repr__(self) -> str:
         """Dummy repr"""
@@ -76,3 +80,12 @@ class User(db.Model):
         repo.update(user)
 
         return user
+
+from src import bcrypt
+
+@staticmethod
+def set_password(self, password):
+    self.password_hash = bcrypt.generate_password_hash(password).decode('utf-8')
+
+def check_password(self, password):
+    return bcrypt.check_password_hash(self.password_hash, password)

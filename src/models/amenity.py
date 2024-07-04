@@ -67,8 +67,6 @@ class PlaceAmenity(db.Model):
 
     place_id = db.Column(db.String(36), db.ForeignKey('places.id'), primary_key=True)
     amenity_id = db.Column(db.String(36), db.ForeignKey('amenities.id'), primary_key=True)
-    created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
-    updated_at = db.Column(db.DateTime, onupdate=db.func.current_timestamp())
 
     place = db.relationship('Place', back_populates='amenities')
     amenity = db.relationship('Amenity', back_populates='places')
