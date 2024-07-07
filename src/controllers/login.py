@@ -25,3 +25,9 @@ def admin_data():
     if not claims.get('is_admin'):
         return jsonify({"msg": "Administration rights required"}), 403
     # Proceed with admin-only functionality
+    
+def check_admin():
+    claims = get_jwt()
+    if claims.get('is_admin'):
+        return True
+    return False

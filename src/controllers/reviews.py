@@ -73,7 +73,7 @@ def update_review(review_id: str):
 
     return review.to_dict(), 200
 
-
+@jwt_required()
 def delete_review(review_id: str):
     """Deletes a review by ID"""
     if not Review.delete(review_id):
