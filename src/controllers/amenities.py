@@ -4,6 +4,7 @@ Amenity controller module
 
 from flask import abort, request
 from src.models.amenity import Amenity
+from flask_jwt_extended import jwt_required
 
 
 def get_amenities():
@@ -12,7 +13,7 @@ def get_amenities():
 
     return [amenity.to_dict() for amenity in amenities]
 
-
+@jwt_required()
 def create_amenity():
     """Creates a new amenity"""
     data = request.get_json()
@@ -48,7 +49,7 @@ def update_amenity(amenity_id: str):
 
     return updated_amenity.to_dict()
 
-
+@jwt_required()
 def delete_amenity(amenity_id: str):
     """Deletes a amenity by ID"""
     if not Amenity.delete(amenity_id):

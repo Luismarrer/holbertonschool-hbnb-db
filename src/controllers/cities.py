@@ -4,6 +4,7 @@ Cities controller module
 
 from flask import request, abort
 from src.models.city import City
+from flask_jwt_extended import jwt_required
 
 
 def get_cities():
@@ -12,7 +13,7 @@ def get_cities():
 
     return [city.to_dict() for city in cities]
 
-
+@jwt_required()
 def create_city():
     """Creates a new city"""
     data = request.get_json()
@@ -51,7 +52,7 @@ def update_city(city_id: str):
 
     return city.to_dict()
 
-
+@jwt_required()
 def delete_city(city_id: str):
     """Deletes a city by ID"""
     if not City.delete(city_id):

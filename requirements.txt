@@ -4,4 +4,5 @@ SQLAlchemy
 Flask-SQLAlchemy
 Flask-JWT-Extended
 Flask-Bcrypt
+dotenv
 gunicorn

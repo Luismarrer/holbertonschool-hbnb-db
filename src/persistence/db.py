@@ -46,8 +46,9 @@ class DBRepository(Repository):
     def reload(self) -> None:
         """Reload the database"""
         from utils.populate import populate_db
-        populate_db(self)
         db.create_all()
+        populate_db(self)
+        
 
     def save(self, obj: Base) -> None:
         """Save an object to the database"""

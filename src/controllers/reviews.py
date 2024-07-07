@@ -4,6 +4,7 @@ Reviews controller module
 
 from flask import abort, request
 from src.models.review import Review
+from flask_jwt_extended import jwt_required
 
 
 def get_reviews():
@@ -12,7 +13,7 @@ def get_reviews():
 
     return [review.to_dict() for review in reviews], 200
 
-
+@jwt_required()
 def create_review(place_id: str):
     """Creates a new review"""
     data = request.get_json()
@@ -57,7 +58,7 @@ def get_review_by_id(review_id: str):
 
     return review.to_dict(), 200
 
-
+@jwt_required()
 def update_review(review_id: str):
     """Updates a review by ID"""
     data = request.get_json()

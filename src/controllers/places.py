@@ -4,6 +4,7 @@ Places controller module
 
 from flask import abort, request
 from src.models.place import Place
+from flask_jwt_extended import jwt_required
 
 
 def get_places():
@@ -12,7 +13,7 @@ def get_places():
 
     return [place.to_dict() for place in places], 200
 
-
+@jwt_required()
 def create_place():
     """Creates a new place"""
     data = request.get_json()
@@ -36,7 +37,7 @@ def get_place_by_id(place_id: str):
 
     return place.to_dict(), 200
 
-
+@jwt_required()
 def update_place(place_id: str):
     """Updates a place by ID"""
     data = request.get_json()
@@ -51,7 +52,7 @@ def update_place(place_id: str):
 
     return place.to_dict(), 200
 
-
+@jwt_required()
 def delete_place(place_id: str):
     """Deletes a place by ID"""
     if not Place.delete(place_id):

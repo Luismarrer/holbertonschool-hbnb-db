@@ -20,13 +20,14 @@ class User(db.Model):
     places = db.relationship('Place', back_populates='host')
     reviews = db.relationship('Review', back_populates='user')
 
-    def __init__(self, email: str, first_name: str, last_name: str, password, **kw):
+    def __init__(self, email: str, first_name: str, last_name: str, password: str, is_admin=False, **kw):
         """Dummy init"""
         super().__init__(**kw)
         self.email = email
         self.first_name = first_name
         self.last_name = last_name
         set_password(self, password)
+        self.is_admin = is_admin
 
     def __repr__(self) -> str:
         """Dummy repr"""

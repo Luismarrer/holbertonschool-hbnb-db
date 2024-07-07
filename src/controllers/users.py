@@ -4,6 +4,8 @@ Users controller module
 
 from flask import abort, request
 from src.models.user import User
+from flask_jwt_extended import jwt_required, get_jwt
+from .login import admin_data
 
 
 def get_users():
@@ -12,18 +14,19 @@ def get_users():
 
     return [user.to_dict() for user in users]
 
-
+@jwt_required()
 def create_user():
     """Creates a new user"""
     data = request.get_json()
-
-    try:
+    claims = get_jwt()
+    if claims.get('is_admin'):
         user = User.create(data)
-    except KeyError as e:
-        abort(400, f"Missing field: {e}")
-    except ValueError as e:
-        abort(400, str(e))
-
+    # except KeyError as e:
+    #     abort(400, f"Missing field: {e}")
+    # except ValueError as e:
+    #     abort(400, str(e))
+    else:
+        user = {}
     if user is None:
         abort(400, "User already exists")
 
@@ -39,7 +42,7 @@ def get_user_by_id(user_id: str):
 
     return user.to_dict(), 200
 
-
+@jwt_required()
 def update_user(user_id: str):
     """Updates a user by ID"""
     data = request.get_json()
@@ -54,7 +57,7 @@ def update_user(user_id: str):
 
     return user.to_dict(), 200
 
-
+@jwt_required()
 def delete_user(user_id: str):
     """Deletes a user by ID"""
     if not User.delete(user_id):
